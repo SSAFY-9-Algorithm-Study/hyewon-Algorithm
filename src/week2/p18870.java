@@ -9,13 +9,34 @@ public class p18870 {
 		Writer wr = new OutputStreamWriter(System.out);
 		
 		int n = Integer.parseInt(br.readLine());
-		Set<Integer> nums = new HashSet<Integer>();
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		
+		int[] nums = new int[n];
 		
 		for (int i = 0; i < n; i++) {
-			nums.add(Integer.parseInt(br.readLine()));
+			nums[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		Collections.sort(nums);
+		int[] sorted_nums = new int[n];
+		System.arraycopy(nums, 0, sorted_nums, 0, n);
+		Arrays.sort(sorted_nums);
+		
+		Map<Integer, Integer> rank_nums = new HashMap<Integer, Integer>();
+		int rank = 0;
+		
+		for (int i = 0; i < n; i++) {
+			if (i == 0) {
+				rank_nums.put(sorted_nums[i], rank++);
+			} else {
+				if (sorted_nums[i] != sorted_nums[i-1]) {
+					rank_nums.put(sorted_nums[i], rank++);
+				}
+			}
+		}
+		
+		for (int i = 0; i < n; i++) {
+			wr.write(rank_nums.get(nums[i]) + "\n");
+		}
 		
 		br.close();
 		wr.close();
